@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>BOM JSON Example</title></head>
+<body>
+
+<div id="demo">hello</div>
+
+<!--JQuery Library-->
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+<!--SCRIPT TO QUERY BOM JSON FILE AND RETURN DATA VIA YQL PROXY TO AVOID CROSS-ORIGIN REQUEST-->
+<script type="text/javascript">
+
+    var yql_url = 'https://query.yahooapis.com/v1/public/yql';
+    var url = 'http://www.bom.gov.au/fwo/IDS60801/IDS60801.94672.json';
+
+    $.ajax({
+        'url': yql_url,
+        'data': {
+            'q': 'SELECT * FROM json WHERE url="' + url + '"',
+            'format': 'json',
+            'jsonCompat': 'new',
+        },
+        'dataType': 'jsonp',
+        'success': function (response) {
+            console.log(response);
+
+            document.getElementById("demo").innerHTML = "Feels Like Temp: " + response.query.results.observations.data[0].apparent_t + "c | ";
+            document.getElementById("demo").innerHTML += "Time Recorded: " + response.query.results.observations.data[0].local_date_time;
+        },
+    });
+</script>
+</body>
+</html>

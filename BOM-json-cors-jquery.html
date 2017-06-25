@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>BOM JSON Example</title></head>
+<body>
+
+<div id="demo">hello</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script src="jquery.ajax-cross-origin.min.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+    $.ajax({
+        crossOrigin: true,
+        url: 'http://www.bom.gov.au/fwo/IDS60801/IDS60801.94672.json',
+        contenttype: 'text/plain',
+        xhrfields: {
+            withCredentials: false
+        },
+        headers: {
+            //'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        type: "GET", /* or type:"GET" or type:"PUT" */
+        //dataType: "jsonp",
+        dataType: "json",
+        data: {
+        },
+        success: function (result) {
+            console.log(result);
+
+            myObj = JSON.parse(result);
+            console.log(myObj);
+
+            document.getElementById("demo").innerHTML = "Feels Like Temp: " + myObj.observations.data[0].apparent_t + "c | ";
+            document.getElementById("demo").innerHTML += "Time Recorded: " + myObj.observations.data[0].local_date_time;
+
+        },
+        error: function () {
+            console.log("error");
+        }
+    });
+</script>
+</body>
+</html>

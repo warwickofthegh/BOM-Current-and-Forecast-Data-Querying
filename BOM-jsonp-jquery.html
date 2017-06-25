@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head><title>BOM JSON Example</title></head>
+<body>
+
+<div id="demo">hello</div>
+
+    <!--jQuery Library-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+
+        $.ajax({
+            url: 'http://ip.jsontest.com/?callback=?',
+            contenttype: 'text/plain',
+            headers: {
+                //'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            type: "GET", /* or type:"GET" or type:"PUT" */
+            //Query Json with Padding Response
+            dataType: "jsonp",
+            data: {
+            },
+            success: function (result) {
+                console.log(result);
+
+                document.getElementById("demo").innerHTML = result.ip;
+
+            },
+            error: function () {
+                console.log("error");
+            }
+        });
+
+        function showIP(){
+            alert("hello");
+        };
+
+        //////////////////////////////////////////////////////////////////
+        // BELOW USING AJAX SHORTHAND getJSON
+        //////////////////////////////////////////////////////////////////
+
+         $(document).ready(function () {
+            getBOMSJson();
+            // check for new updates
+            //setInterval('getUpdates()', 120000);
+        });
+
+        //$.getJSON is the Short form of using $.ajax
+        function getBOMSJson() {
+            $.getJSON('http://ip.jsontest.com/?callback=?', function (data) {
+                console.log(data);
+                document.getElementById("demo").innerHTML += " | " + data.ip;
+            });
+        }
+
+    </script>
+</body>
+</html>
