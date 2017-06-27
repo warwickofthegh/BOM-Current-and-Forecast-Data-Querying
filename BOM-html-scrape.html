@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+</head>
+<body>
+
+    <div id="demo"></div>
+
+    <!--JQuery Library-->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+
+    <script>
+        $.ajaxPrefilter(function (options) {
+            if (options.crossDomain && jQuery.support.cors) {
+                var http = (window.location.protocol === 'http:' ? 'http:' : 'https:');
+                options.url = http + '//cors-anywhere.herokuapp.com/' + options.url;
+            }
+        });
+
+        var url = 'http://www.bom.gov.au/sa/forecasts/adelaide.shtml';
+
+        $.get(
+            url,
+            function (data) {
+                //console.log(data)
+
+                //Date
+                var bomdate = $(data).find(".day h2");
+                //MIN
+                var bommin = $(data).find(".min");
+                //MAX
+                var bommax = $(data).find(".max");
+                //SUMMARY
+                var bomsummary = $(data).find(".summary");
+                //Rain
+                var bomrain = $(data).find("em.rain");
+                //RainPot
+                var bomrainpop = $(data).find(".pop");
+                //LONG SUMMARY
+                var bomsummarylong = $(data).find(".forecast p");
+                //IMAGE
+                var bomimage = $(data).find(".image img");
+
+                //NextDay
+                console.log(bomdate[1].innerText);
+                console.log(bommin[0].innerText);
+                console.log(bommax[0].innerText);
+                console.log(bomsummary[1].innerText);
+                console.log(bomrain[0].innerText);
+                console.log($.trim(bomrainpop[1].innerText));
+                console.log(bomsummarylong[1].innerText);
+                console.log("http://www.bom.gov.au" + bomimage[1].attributes[0].value);
+
+                //NextDay+1
+                console.log(bomdate[2].innerText);
+                console.log("min: " + bommin[1].innerText);
+                console.log("max: " + bommax[1].innerText);
+                console.log(bomsummary[2].innerText);
+                console.log("Rain: " + bomrain[1].innerText);
+                console.log("Chance: " + $.trim(bomrainpop[2].innerText));
+                console.log(bomsummarylong[2].innerText);
+                console.log("http://www.bom.gov.au" + bomimage[2].attributes[0].value);
+
+
+
+
+
+                $('#load').fadeOut();
+                $(".main").append('<div class="book"><div class="title">' + bomdate[1].innerText + '</div><div class="description">' + bommin[0].innerText + '</div><div class="date">' + bommax[0].innerText + '</div><div class="date">' + bomsummary[1].innerText + '</div><div class="date">' + bomrain[0].innerText + '</div><div class="date">' + $.trim(bomrainpop[1].innerText) + '</div><div class="date">' + bomsummarylong[1].innerText + '</div><div class="date"><img src="http://www.bom.gov.au' + bomimage[1].attributes[0].value + '"/></div></div><br/>');
+                $(".book").fadeIn(5000);
+
+            });
+    </script>
+
+    <div class="main">
+        
+    </div>
+    <div align="center" class="loader"><img src="loading.gif" id="load" width="50" height="50" align="absmiddle" /></div>
+
+</body>
+</html>
